@@ -1,0 +1,287 @@
+@import '_variables';
+@import "font-awesome/fontawesome.scss";
+@import "font-awesome/solid.scss";
+@import "font-awesome/regular.scss";
+
+body {
+  margin: 0;
+  background-color: $tl-sand;
+  height: 98vh;
+  width: 100vw;
+}
+
+#app {
+  margin-left: auto;
+  margin-right: auto;
+  // font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Lato;
+  font-weight: 600;
+  text-align: center;
+  color: #2c3e50;
+  height: 100%;
+  max-width: 450px;
+  max-height: 750px;
+}
+
+.root {
+  background-color: $tl-green;
+  margin: 5px;
+  height: 100%;
+}
+
+.tasklist-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .tasklist-header {
+    background-color: #4be057;
+    box-shadow: 0px 3px 6px 0px #0000000f;
+
+    .tasklist-header-content {
+      display: flex;
+      flex-direction: row;
+      justify-content: baseline;
+      align-items: center;
+      height: 80px;
+      box-sizing: border-box;
+      background-color: $tl-green;
+      color: white;
+
+      .tasklist-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        h1 {
+          margin: 0;
+          font-family: Roboto;
+          font-size: 1.8em;
+        }
+        span {
+          font-weight: 300;
+          font-size: 1.4em;
+        }
+      }
+
+      .back {
+        display: flex;
+        @extend %fa-icon;
+        @extend .fas;
+
+        // width: 20px;
+        // height: 30px;
+        font-size: 2.2em;
+        margin: 0 15px;
+
+        &:before {
+          content: fa-content($fa-var-chevron-left);
+        }
+      }
+    }
+
+    .tasklist-footer-content {
+      display: flex;
+      position: relative;
+      width: 100%;
+      height: 40px;
+      background-color: $tl-white;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      padding-bottom: 15px;
+      border-top: #42cd4f 4px solid; // make variable?
+      font-size: .8em;
+
+      .date {
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        align-items: center;
+        left: 20px;
+        top: 15px;
+        .day {
+          font-size: 2.2em;
+          margin-right: 5px;
+        }
+        .month-year {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          font-size: .9em;
+        }
+      }
+
+      .dayOfWeek {
+        display: block;
+        position: absolute;
+        right: 8.5%;
+        top: 30px;
+        text-align: center;
+      }
+    }
+  }
+
+  .tasklist {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 80px;
+    overflow-y: scroll;
+    background-color: $tl-white;
+    // box-shadow: 0px 3px 6px 0px #0000000f;
+
+    .task {
+      @extend %fa-icon;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .completed {
+        @extend .far;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+        width: 20%;
+        font-size: 2.2em;
+        color: #d7d7d7;
+
+        &:before {
+          content: fa-content($fa-var-circle);
+        }
+      }
+
+      .task-info {
+        display: flex;
+        position: relative;
+        flex-direction: row;
+        height: 60px;
+        width: 80%;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid #d5d8d8;
+
+        .handle {
+          @extend .fas;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 2.2em;
+          color: #d7d7d7;
+          height: 50px;
+          width: 60px;
+          font-size: 2.2em;
+  
+          &:before {
+            content: fa-content($fa-var-grip-vertical);
+          }
+        }
+        span {
+          user-select: none;
+          font-weight: 600;
+        }
+      }
+
+      &.complete {
+        .completed {
+          &:before {
+            color: $tl-green;
+            content: fa-content($fa-var-check-circle);
+          }
+        }
+
+        .task-info {
+          span {
+            color: #d7d7d7;
+          }
+          &:before {
+            content: '';
+            position: absolute;
+            width: 65%;
+            height: 1px;
+            left: 0;
+            background-color: #d7d7d7;
+          }
+        }
+      }
+
+      &.last {
+        .completed {
+          border-bottom: 1px solid #d5d8d8;
+        }
+      }
+    }
+  }
+
+  .tasklist-footer {
+    display: flex;
+    // height: 80px;
+    justify-content: center;
+    background-color: $tl-sand;
+    height: 65px;
+  }
+
+  .circular-btn {
+    position: relative;
+    display: flex;
+    border-radius: 50px;
+    font-size: 3em;
+    align-items: center;
+    justify-content: center;
+    // box-shadow: 0px 4px 5px 0px #00000030;
+    box-shadow: 0px 3px 10px 0px #00000030;
+    
+    &.add-task {
+      @extend %fa-icon;
+      @extend .fas;
+      display: flex;
+      width: 100px;
+      height: 100px;
+      bottom: 32px;
+      align-self: center;
+      color: $tl-dark-green;
+      background-color: $tl-green;
+
+      &:before {
+        text-shadow: 0px 4px 2px #97ffa0;
+        content: fa-content($fa-var-plus);
+      }
+    }
+
+    &.toggle-complete {
+      @extend %fa-icon;
+      @extend .fas;
+      display: flex;
+      
+      &.false {
+        width: 60px;
+        height: 60px;
+        font-size: 2.2em;
+        margin-bottom: 15px;
+        align-self: flex-end;
+        color: #c3b067; // Mak variable?
+        background-color: #e3c86c; // Mak variable?
+        
+        &:before {
+          text-shadow: 0px 2px 2px #ffe794;
+          content: fa-content($fa-var-check);
+        }
+      }
+
+      &.true {
+        width: 60px;
+        height: 60px;
+        font-size: 2.2em;
+        margin-bottom: 15px;
+        align-self: flex-end;
+        color: #c0c0c0; // Mak variable?
+        background-color: #e0e0e0; // Mak variable?
+        
+        &:before {
+          text-shadow: 0px 2px 2px #ffffff;
+          content: fa-content($fa-var-times);
+        }
+      }
+    }
+  }
+}
