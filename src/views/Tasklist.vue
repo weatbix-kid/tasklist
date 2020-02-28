@@ -21,7 +21,10 @@
           </div>
           <span class="dayOfWeek">{{ currentDate.day }}</span>
           <div style="flex-grow: 10;"></div>
-          <div class="circular-btn toggle-complete" @click="showCompleted = !showCompleted" :class="[showCompleted ? 'true' : 'false']"></div>
+          <div class="circular-btn toggle-settings" @click.stop="showSettings = !showSettings" :class="[showSettings ? 'true' : 'false']">
+            <div class="child-btn toggle-complete" @click.stop="showCompleted = !showCompleted" :class="[showSettings ? 'show' : '', showCompleted ? 'true' : '']"></div>
+            <div class="child-btn toggle-delete" @click.stop="enableRemove = !enableRemove" :class="[showSettings ? 'show' : '', enableRemove ? 'true' : '']"></div>
+          </div>
           <div style="flex-grow: 1;"></div>
         </div>
       </div>
@@ -47,6 +50,8 @@ export default {
   name: 'Tasklist',
   data () {
     return {
+      enableRemove: false,
+      showSettings: false,
       showCompleted: false,
       tasklist: 'Personal to-do',
       tasks: [
