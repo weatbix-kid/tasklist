@@ -1,7 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300|Roboto&display=swap');
 
+$tl-default-text: #2c3e50;
 $tl-sand: #f0ecea;
 $tl-green: #4be057;
 $tl-dark-green: #41a74a;
 $tl-white: #f1f1f1;
 $tl-grey: #d5d8d8;
+$tl-red: #f25050;
+$tl-blue: #50b6f2;
+
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}

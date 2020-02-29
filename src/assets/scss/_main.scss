@@ -17,7 +17,7 @@ body {
   font-family: Lato;
   font-weight: 600;
   text-align: center;
-  color: #2c3e50;
+  color: $tl-default-text;
   height: 100%;
   max-width: 450px;
   max-height: 750px;
@@ -152,6 +152,21 @@ body {
         }
       }
 
+      .remove {
+        @extend .far;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+        width: 20%;
+        font-size: 1.6em;
+        color: $tl-red;
+        
+        &:before {
+          content: fa-content($fa-var-trash-alt);
+        }
+      }
+
       .task-info {
         display: flex;
         position: relative;
@@ -162,20 +177,31 @@ body {
         align-items: center;
         border-bottom: 1px solid #d5d8d8;
 
-        .handle {
-          @extend .fas;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 2.2em;
-          color: #d7d7d7;
-          height: 50px;
-          width: 60px;
-          font-size: 2.2em;
+        // .handle {
+        //   @extend .fas;
+        //   display: flex;
+        //   justify-content: center;
+        //   align-items: center;
+        //   font-size: 2.2em;
+        //   color: #d7d7d7;
+        //   height: 50px;
+        //   width: 60px;
+        //   font-size: 2.2em;
   
-          &:before {
-            content: fa-content($fa-var-grip-vertical);
-          }
+        //   &:before {
+        //     content: fa-content($fa-var-grip-vertical);
+        //   }
+        // }
+        input {
+          color: $tl-default-text;
+          font-family: Lato;
+          margin: 0em;
+          padding: 0;
+          border: none;
+          background-color: initial;
+          font-weight: 600;
+          font-size: 1em;
+          -webkit-font-smoothing: antialiased;
         }
         span {
           user-select: none;
@@ -192,7 +218,7 @@ body {
         }
 
         .task-info {
-          span {
+          input, span {
             color: #d7d7d7;
           }
           &:before {
@@ -207,7 +233,7 @@ body {
       }
 
       &.last {
-        .completed {
+        .completed, .remove {
           border-bottom: 1px solid #d5d8d8;
         }
       }
@@ -318,30 +344,31 @@ body {
       
       &.toggle-complete {
         color: #5c95a4; // Mak variable?
-        background-color: #50b6f2; // Mak variable?
+        background-color: $tl-blue;
         &:before {
           content: fa-content($fa-var-clipboard-check);
         }
         
         &.true {
           color: #a45c5c; // Mak variable?
-          background-color: #f25050; // Mak variable?
+          background-color: $tl-red;
           &:before {
             content: fa-content($fa-var-clipboard);
+            // content: fa-content($fa-var-clipboard-list);
           }
         }
       }
 
       &.toggle-delete {
         color: #5c95a4; // Mak variable?
-        background-color: #50b6f2; // Mak variable?
+        background-color: $tl-blue;
         &:before {
           content: fa-content($fa-var-trash);
         }
         
         &.true {
           color: #a45c5c; // Mak variable?
-          background-color: #f25050; // Mak variable?
+          background-color: $tl-red;
         }
       }
     }

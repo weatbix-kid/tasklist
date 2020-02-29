@@ -30,11 +30,13 @@
       </div>
       <div class="tasklist">
         <div class="task" :class="[{'last' : index + 1 === tasks.length}, task.complete ? 'complete' : '']" v-for="(task, index) in sortedTasks" :key="task.id">
-          <div class="completed" @click="task.complete = !task.complete"></div>
+          <div v-if="!enableRemove" class="completed" @click="task.complete = !task.complete"></div>
+          <div v-else class="remove" @click="removeTask(task.id)"></div>
           <div class="task-info">
-            <span>{{ task.title }}</span>
+            <!-- <span>{{ task.title }}</span> -->
+            <input v-model="task.title" type="text">
             <div style="flex-grow: 1;"></div>
-            <div class="handle"></div>
+            <!-- <div class="handle"></div> -->
           </div>
         </div>
       </div>
@@ -123,6 +125,10 @@ export default {
         order: heighestID,
         complete: false
       })
+    },
+    removeTask (id) {
+      const taskRemoved = this.tasks.slice(0).filter(task => task.id !== (id))
+      this.tasks = taskRemoved
     }
   }
 }
