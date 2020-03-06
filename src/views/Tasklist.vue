@@ -1,7 +1,5 @@
 <template>
   <div class="root">
-    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <div class="tasklist-container">
       <div class="tasklist-header">
         <div class="tasklist-header-content">
@@ -33,10 +31,8 @@
           <div v-if="!enableRemove" class="completed" @click="task.complete = !task.complete"></div>
           <div v-else class="remove" @click="removeTask(task.id)"></div>
           <div class="task-info">
-            <!-- <span>{{ task.title }}</span> -->
-            <input v-model="task.title" type="text">
+            <input v-model.lazy="task.title" type="text">
             <div style="flex-grow: 1;"></div>
-            <!-- <div class="handle"></div> -->
           </div>
         </div>
       </div>
@@ -56,30 +52,14 @@ export default {
       showSettings: false,
       showCompleted: false,
       tasklist: 'Personal to-do',
-      tasks: [
-        {
-          id: 1,
-          title: 'Read an article',
-          description: 'Just a random description, Nulla placerat ligula sem, sit amet molestie lectus commodo a.',
-          order: 1,
-          complete: false
-        },
-        {
-          id: 2,
-          title: 'Buy new sweatshirt',
-          description: 'Just a random description, Nulla placerat ligula sem, sit amet molestie lectus commodo a.',
-          order: 2,
-          complete: true
-        },
-        {
-          id: 3,
-          title: 'Try not to fall asleep',
-          description: 'Just a random description, Nulla placerat ligula sem, sit amet molestie lectus commodo a.',
-          order: 3,
-          complete: false
-        }
-      ]
+      tasks: []
     }
+  },
+  mounted () {
+    this.load()
+  },
+  beforeDestroy () {
+    this.save()
   },
   computed: {
     sortedTasks () {
@@ -125,10 +105,30 @@ export default {
         order: heighestID,
         complete: false
       })
+
+      this.save()
     },
     removeTask (id) {
       const taskRemoved = this.tasks.slice(0).filter(task => task.id !== (id))
       this.tasks = taskRemoved
+      this.save()
+    },
+    save () {
+      localStorage.setItem('userTaskData', JSON.stringify(this.tasks))
+    },
+    load () {
+      if (localStorage.getItem('userTaskData')) {
+        var data = JSON.parse(localStorage.getItem('userTaskData'))
+        this.tasks = data
+      }
+    }
+  },
+  watch: {
+    tasks: {
+      handler () {
+        this.save()
+      },
+      deep: true
     }
   }
 }
