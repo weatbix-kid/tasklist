@@ -106,7 +106,7 @@ export default {
         complete: false
       })
 
-      this.save()
+      // this.save() // Commented to not save on add (Only on edits and remove)
     },
     removeTask (id) {
       const taskRemoved = this.tasks.slice(0).filter(task => task.id !== (id))
@@ -128,7 +128,7 @@ export default {
       handler () {
         this.save()
       },
-      deep: true
+      deep: true // Deep to watch changes within array
     }
   }
 }
