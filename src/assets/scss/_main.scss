@@ -114,7 +114,7 @@ body {
       .dayOfWeek {
         display: block;
         position: absolute;
-        right: 8.5%;
+        right: 8.7%;
         top: 30px;
         text-align: center;
       }
@@ -356,8 +356,8 @@ body {
           color: #a45c5c; // Mak variable?
           background-color: $tl-red;
           &:before {
-            content: fa-content($fa-var-clipboard);
-            // content: fa-content($fa-var-clipboard-list);
+            // content: fa-content($fa-var-clipboard);
+            content: fa-content($fa-var-clipboard-list);
           }
         }
       }
@@ -376,4 +376,15 @@ body {
       }
     }
   }
+}
+
+/* Task enter animations */
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .15s ease-out
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  opacity: 0;
 }

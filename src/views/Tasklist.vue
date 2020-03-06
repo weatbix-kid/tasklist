@@ -19,7 +19,7 @@
           </div>
           <span class="dayOfWeek">{{ currentDate.day }}</span>
           <div style="flex-grow: 10;"></div>
-          <div class="circular-btn toggle-settings" @click.stop="showSettings = !showSettings" :class="[showSettings ? 'true' : 'false']">
+          <div class="circular-btn toggle-settings" @click.stop="showSettings = !showSettings; enableRemove = false" :class="[showSettings ? 'true' : 'false']">
             <div class="child-btn toggle-complete" @click.stop="showCompleted = !showCompleted" :class="[showSettings ? 'show' : '', showCompleted ? 'true' : '']"></div>
             <div class="child-btn toggle-delete" @click.stop="enableRemove = !enableRemove" :class="[showSettings ? 'show' : '', enableRemove ? 'true' : '']"></div>
           </div>
@@ -27,14 +27,16 @@
         </div>
       </div>
       <div class="tasklist">
+        <transition-group appear name="slide-fade">
         <div class="task" :class="[{'last' : index + 1 === tasks.length}, task.complete ? 'complete' : '']" v-for="(task, index) in sortedTasks" :key="task.id">
           <div v-if="!enableRemove" class="completed" @click="task.complete = !task.complete"></div>
           <div v-else class="remove" @click="removeTask(task.id)"></div>
           <div class="task-info">
-            <input v-model.lazy="task.title" type="text">
+            <input v-model.lazy="task.title" @keyup.enter="addTask()" v-focus type="text">
             <div style="flex-grow: 1;"></div>
           </div>
         </div>
+        </transition-group>
       </div>
       <div class="tasklist-footer">
         <div class="circular-btn add-task" @click="addTask"></div>
@@ -97,7 +99,6 @@ export default {
           heighestID = this.tasks[i].id + 1
         }
       }
-
       this.tasks.push({
         id: heighestID,
         title: 'New item',
@@ -105,8 +106,6 @@ export default {
         order: heighestID,
         complete: false
       })
-
-      // this.save() // Commented to not save on add (Only on edits and remove)
     },
     removeTask (id) {
       const taskRemoved = this.tasks.slice(0).filter(task => task.id !== (id))
@@ -123,12 +122,21 @@ export default {
       }
     }
   },
+  directives: {
+    focus: {
+      // When the bound element is inserted into the DOM...
+      inserted (el) {
+        el.focus()
+      }
+    }
+  },
   watch: {
     tasks: {
       handler () {
         this.save()
       },
-      deep: true // Deep to watch changes within array
+      // Deep to watch changes within array
+      deep: true
     }
   }
 }
