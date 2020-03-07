@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="tasklist">
-        <transition-group appear name="slide-fade">
+        <transition-group name="slide-fade">
         <div class="task" :class="[{'last' : index + 1 === tasks.length}, task.complete ? 'complete' : '']" v-for="(task, index) in sortedTasks" :key="task.id">
           <div v-if="!enableRemove" class="completed" @click="task.complete = !task.complete"></div>
           <div v-else class="remove" @click="removeTask(task.id)"></div>
