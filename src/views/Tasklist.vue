@@ -127,12 +127,18 @@ export default {
       // When the bound element is inserted into the DOM...
       inserted (el) {
         el.focus()
+        el.select()
       }
     }
   },
   watch: {
     tasks: {
       handler () {
+        this.tasks.forEach(task => {
+          if (task.title === '') {
+            this.removeTask(task.id)
+          }
+        })
         this.save()
       },
       // Deep to watch changes within array
