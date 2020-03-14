@@ -53,10 +53,18 @@ body {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        h1 {
+        input {
           margin: 0;
           font-family: Roboto;
           font-size: 1.8em;
+          padding: 0;
+          border: none;
+          background-color: initial;
+          font-weight: 600;
+          width: 90%;
+          // white-space: nowrap;
+          // overflow: hidden;
+          // text-overflow: ellipsis;
         }
         span {
           font-weight: 300;
