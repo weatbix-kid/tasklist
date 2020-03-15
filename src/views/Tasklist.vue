@@ -3,7 +3,7 @@
     <div class="tasklist-container">
       <div class="tasklist-header">
         <div class="tasklist-header-content">
-          <div class="back"></div>
+          <div class="back" @click="$router.go(-1)"></div>
           <div class="tasklist-info">
             <input v-model.lazy="tasklist.name" type="text">
             <!-- <h1> {{ tasklist }} </h1> -->
@@ -53,42 +53,28 @@ export default {
     return {
       enableRemove: false,
       showSettings: false,
-      showCompleted: false,
-      tasklist: {
-        name: 'Test Tasklist',
-        tasks: [
-          {
-            id: 1,
-            title: 'New item',
-            description: 'Just a random description, Nulla placerat ligula sem, sit amet molestie lectus commodo a.',
-            order: 1,
-            complete: false
-          },
-          {
-            id: 2,
-            title: 'New item',
-            description: 'Just a random description, Nulla placerat ligula sem, sit amet molestie lectus commodo a.',
-            order: 2,
-            complete: false
-          },
-          {
-            id: 3,
-            title: 'New item',
-            description: 'Just a random description, Nulla placerat ligula sem, sit amet molestie lectus commodo a.',
-            order: 3,
-            complete: false
-          }
-        ]
-      }
+      showCompleted: false
     }
   },
-  // mounted () {
-  //   this.load()
-  // },
-  // beforeDestroy () {
-  //   this.save()
-  // },
+  beforeDestroy () {
+    this.$root.save()
+  },
   computed: {
+    tasklist () {
+      var tasklistID = this.$route.query.list
+      var validTasklist = this.$root.userData.tasklists.some(tasklist => tasklist.id === parseInt(tasklistID))
+      var currentTasklist = {
+        id: 0,
+        name: '',
+        tasks: []
+      }
+
+      if (validTasklist) {
+        currentTasklist = this.$root.userData.tasklists.find(tasklist => tasklist.id === parseInt(tasklistID))
+      }
+
+      return currentTasklist
+    },
     sortedTasks () {
       var toSort = this.tasklist.tasks.slice(0)
       if (this.showCompleted) {
@@ -135,21 +121,11 @@ export default {
     removeTask (id) {
       const taskRemoved = this.tasklist.tasks.slice(0).filter(task => task.id !== (id))
       this.tasklist.tasks = taskRemoved
-      this.save()
-    },
-    save () {
-      localStorage.setItem('userTaskData', JSON.stringify(this.tasklist.tasks))
-    },
-    load () {
-      if (localStorage.getItem('userTaskData')) {
-        var data = JSON.parse(localStorage.getItem('userTaskData'))
-        this.tasklist.tasks = data
-      }
+      this.$root.save()
     }
   },
   directives: {
     focus: {
-      // When the bound element is inserted into the DOM...
       inserted (el) {
         el.focus()
         el.select()
@@ -157,14 +133,14 @@ export default {
     }
   },
   watch: {
-    tasks: {
+    tasklist: {
       handler () {
         this.tasklist.tasks.forEach(task => {
           if (task.title === '') {
             this.removeTask(task.id)
           }
         })
-        this.save()
+        this.$root.save()
       },
       // Deep to watch changes within array
       deep: true
