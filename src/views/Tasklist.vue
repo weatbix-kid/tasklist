@@ -38,6 +38,9 @@
           </div>
         </div>
         </transition-group>
+        <div class="stats">
+          <span v-show="activeTasks > 0">{{ completeTasks }} / {{ activeTasks }} Complete</span>
+        </div>
       </div>
       <div class="tasklist-footer">
         <div class="circular-btn add-task" @click="addTask"></div>
@@ -89,6 +92,15 @@ export default {
         // Test in vue data
       }
       return toSort
+    },
+    completeTasks () {
+      var count = 0
+      this.tasklist.tasks.forEach(task => {
+        if (task.complete) {
+          count++
+        }
+      })
+      return count
     },
     currentDate () {
       var currentDate = new Date()
