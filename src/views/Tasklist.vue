@@ -33,7 +33,7 @@
           <div v-if="!enableRemove" class="completed" @click="task.complete = !task.complete"></div>
           <div v-else class="remove" @click="removeTask(task.id)"></div>
           <div class="task-info">
-            <input v-model.lazy="task.title" @keyup.enter="addTask()" v-focus type="text">
+            <input v-model.lazy="task.title" @keyup.enter="addTask()" v-task type="text">
             <div style="flex-grow: 1;"></div>
           </div>
         </div>
@@ -84,6 +84,9 @@ export default {
           // false values first
           return (x.complete === y.complete) ? 0 : x.complete ? 1 : -1
         })
+      } else {
+        // Sort by order number
+        // Test in vue data
       }
       return toSort
     },
@@ -104,6 +107,11 @@ export default {
   },
   methods: {
     addTask () {
+      // If add while editing
+      // Get selected task order // ??
+      // Make new task with order +1
+      // Loop all following tasks and increment orders by +1
+
       var heighestID = 0
       for (let i = 0; i < this.tasklist.tasks.length; i++) {
         if (heighestID <= this.tasklist.tasks[i].id) {
@@ -125,7 +133,7 @@ export default {
     }
   },
   directives: {
-    focus: {
+    task: {
       inserted (el) {
         el.focus()
         el.select()

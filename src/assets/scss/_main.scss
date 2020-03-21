@@ -98,7 +98,7 @@ body {
       border-top-left-radius: 30px;
       border-top-right-radius: 30px;
       padding-bottom: 15px;
-      border-top: #42cd4f 4px solid; // make variable?
+      // border-top: #42cd4f 4px solid; // make variable?
       font-size: .8em;
 
       .date {
@@ -268,7 +268,7 @@ body {
     align-items: center;
     justify-content: center;
     // box-shadow: 0px 4px 5px 0px #00000030;
-    box-shadow: 0px 3px 10px 0px #00000030;
+    // box-shadow: 0px 3px 10px 0px #00000030;
     
     &.add-task {
       @extend %fa-icon;
@@ -280,6 +280,8 @@ body {
       align-self: center;
       color: $tl-dark-green;
       background-color: $tl-green;
+      // box-shadow: 0px 3px 10px 0px #00000030; // Only on add button??
+      box-shadow: 0px 3px 6px 0px #00000030; // New
 
       &:before {
         text-shadow: 0px 4px 2px #97ffa0;
@@ -335,7 +337,7 @@ body {
       font-size: 1em;
       align-items: center;
       justify-content: center;
-      box-shadow: 0px 3px 10px 0px #00000030;
+      // box-shadow: 0px 3px 10px 0px #00000030;
       z-index: -1;
       transition: opacity .1s, top .1s, left .1s;
       opacity: 0;
