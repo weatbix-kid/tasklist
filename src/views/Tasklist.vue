@@ -32,7 +32,7 @@
         <div class="task" :class="[{'last' : index + 1 === tasklist.tasks.length}, task.complete ? 'complete' : '']" v-for="(task, index) in sortedTasks" :key="task.id">
           <div v-if="!enableRemove" class="completed" @click="task.complete = !task.complete"></div>
           <div v-else class="remove" @click="removeTask(task.id)"></div>
-          <div class="task-info">{{ task.order }}
+          <div class="task-info">
             <input v-model.lazy="task.title" @keyup.enter="addTask('input', task)" v-taskInput type="text">
             <div style="flex-grow: 1;"></div>
           </div>
