@@ -143,7 +143,7 @@ body {
     .stats {
       position: fixed;
       bottom: 85px;
-      right: 8px;
+      right: 10px;
       text-align: right;
       opacity: .4;
       font-size: .8em;
@@ -303,12 +303,12 @@ body {
       @extend %fa-icon;
       @extend .fas;
       display: flex;
+      margin-bottom: 10px;
       
       &.false {
         width: 60px;
         height: 60px;
         font-size: 2.2em;
-        margin-bottom: 15px;
         align-self: flex-end;
         color: #c3b067; // Mak variable?
         background-color: #e3c86c; // Mak variable?
@@ -323,7 +323,6 @@ body {
         width: 60px;
         height: 60px;
         font-size: 2.2em;
-        margin-bottom: 15px;
         align-self: flex-end;
         color: #c0c0c0; // Mak variable?
         background-color: #e0e0e0; // Mak variable?

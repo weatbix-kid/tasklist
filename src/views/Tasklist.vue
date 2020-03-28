@@ -32,8 +32,8 @@
         <div class="task" :class="[{'last' : index + 1 === tasklist.tasks.length}, task.complete ? 'complete' : '']" v-for="(task, index) in sortedTasks" :key="task.id">
           <div v-if="!enableRemove" class="completed" @click="task.complete = !task.complete"></div>
           <div v-else class="remove" @click="removeTask(task.id)"></div>
-          <div class="task-info">
-            <input v-model.lazy="task.title" @keyup.enter="addTask()" v-task type="text">
+          <div class="task-info">{{ task.order }}
+            <input v-model.lazy="task.title" @keyup.enter="addTask('input', task)" v-taskInput type="text">
             <div style="flex-grow: 1;"></div>
           </div>
         </div>
@@ -43,7 +43,7 @@
         </div>
       </div>
       <div class="tasklist-footer">
-        <div class="circular-btn add-task" @click="addTask"></div>
+        <div class="circular-btn add-task" @click="addTask('button')"></div>
       </div>
     </div>
   </div>
@@ -81,6 +81,7 @@ export default {
     sortedTasks () {
       var toSort = this.tasklist.tasks.slice(0)
       if (this.showCompleted) {
+        // Sort by completion
         toSort.sort(function (x, y) {
           // true values first
           // return (x.complete === y.complete) ? 0 : x.complete ? -1 : 1
@@ -89,7 +90,9 @@ export default {
         })
       } else {
         // Sort by order number
-        // Test in vue data
+        toSort.sort(function (a, b) {
+          return a.order - b.order
+        })
       }
       return toSort
     },
@@ -118,23 +121,37 @@ export default {
     }
   },
   methods: {
-    addTask () {
-      // If add while editing
-      // Get selected task order // ??
-      // Make new task with order +1
-      // Loop all following tasks and increment orders by +1
-
+    addTask (type, task) {
+      var prevTask = task || null
       var heighestID = 0
+      var nextOrder = 0
+
       for (let i = 0; i < this.tasklist.tasks.length; i++) {
         if (heighestID <= this.tasklist.tasks[i].id) {
           heighestID = this.tasklist.tasks[i].id + 1
         }
       }
+
+      if (type === 'input') {
+        // Loop all following tasks and increment orders by +1 (if want fix new tasks after new tasks)
+        if (nextOrder <= prevTask.order) {
+          nextOrder = prevTask.order
+        }
+      } else if (type === 'button') {
+        for (let i = 0; i < this.tasklist.tasks.length; i++) {
+          if (nextOrder <= this.tasklist.tasks[i].order) {
+            nextOrder = this.tasklist.tasks[i].order + 1
+          }
+        }
+      } else {
+        console.warn('No add type specified. Ignored item to add')
+      }
+
       this.tasklist.tasks.push({
         id: heighestID,
         title: 'New item',
         description: 'Just a random description, Nulla placerat ligula sem, sit amet molestie lectus commodo a.',
-        order: heighestID,
+        order: nextOrder,
         complete: false
       })
     },
@@ -145,7 +162,7 @@ export default {
     }
   },
   directives: {
-    task: {
+    taskInput: {
       inserted (el) {
         el.focus()
         el.select()
