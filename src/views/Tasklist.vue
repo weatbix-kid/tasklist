@@ -133,9 +133,14 @@ export default {
       }
 
       if (type === 'input') {
-        // Loop all following tasks and increment orders by +1 (if want fix new tasks after new tasks)
         if (nextOrder <= prevTask.order) {
-          nextOrder = prevTask.order
+          nextOrder = prevTask.order + 1
+          // Loop all following tasks and increment orders by +1
+          this.tasklist.tasks.forEach(task => {
+            if (task.order >= prevTask.order + 1) {
+              task.order++
+            }
+          })
         }
       } else if (type === 'button') {
         for (let i = 0; i < this.tasklist.tasks.length; i++) {
