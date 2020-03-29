@@ -6,7 +6,6 @@
           <div class="back" @click="$router.go(-1)"></div>
           <div class="tasklist-info">
             <input v-model.lazy="tasklist.name" type="text">
-            <!-- <h1> {{ tasklist }} </h1> -->
             <span> {{ activeTasks }} Tasks </span>
           </div>
         </div>
@@ -80,19 +79,13 @@ export default {
     },
     sortedTasks () {
       var toSort = this.tasklist.tasks.slice(0)
+      var byOrder = toSort.sort(function (a, b) { return a.order - b.order })
       if (this.showCompleted) {
-        // Sort by completion
-        toSort.sort(function (x, y) {
-          // true values first
-          // return (x.complete === y.complete) ? 0 : x.complete ? -1 : 1
-          // false values first
-          return (x.complete === y.complete) ? 0 : x.complete ? 1 : -1
+        byOrder.sort(function (a, b) {
+          return (a.complete === b.complete) ? 0 : a.complete ? 1 : -1
         })
       } else {
-        // Sort by order number
-        toSort.sort(function (a, b) {
-          return a.order - b.order
-        })
+        toSort = byOrder
       }
       return toSort
     },
